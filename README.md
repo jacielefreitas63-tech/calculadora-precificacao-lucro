@@ -34,6 +34,9 @@ A partir de $P$, o sistema calcula:
 
 ---
 
+<img width="1148" height="827" alt="image" src="https://github.com/user-attachments/assets/513ab19b-4552-4ef0-8a60-4c4b01827dea" />
+
+
 ## Estrutura de Arquivos
 
 ```text
