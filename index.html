@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <!-- Define o encoding UTF-8 para preservar acentuação e símbolos monetários (R$) sem corrupção -->
+  <meta charset="UTF-8" />
+  <!-- Garante escala correta em dispositivos móveis e evita zoom indesejado no layout responsivo -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Lucro Real — Precificação & Saúde da Margem</title>
+
+  <!-- Pré-conexão com os servidores de fontes para reduzir latência no carregamento tipográfico -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <!-- Fraunces para títulos editoriais e Plus Jakarta Sans para leitura limpa de números e formulários -->
+  <link
+    href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,700&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap"
+    rel="stylesheet"
+  />
+
+  <!-- Folha de estilos principal estruturada com variáveis CSS e layout em duas colunas -->
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <!-- Elemento decorativo puramente visual; oculto de leitores de tela para não gerar ruído -->
+  <div class="bg-glow" aria-hidden="true"></div>
+
+  <main class="app-shell">
+    <!-- Cabeçalho institucional: apresenta a proposta de valor focada na margem real do lojista -->
+    <header class="hero">
+      <span class="badge">PORTFÓLIO • PRECIFICAÇÃO PARA LOJISTAS</span>
+      <h1>Lucro Real</h1>
+      <p class="subtitulo">
+        Chega de vender muito e ver pouco dinheiro no caixa. Calcule o preço ideal,
+        o desconto real da plataforma e o lucro que sobra de verdade.
+      </p>
+    </header>
+
+    <!-- Contêiner principal que separa a coleta de variáveis financeiras da leitura de resultados -->
+    <div class="workspace">
+      <!-- Seção 1: Entradas de custo unitário, volume, comissão de marketplace, margem e teste de vitrine -->
+      <section class="card-painel" aria-label="Dados de custo e margem">
+        <div class="painel-topo">
+          <h2>1. Custos e Meta</h2>
+          <!-- Botão utilitário para popular um cenário realista e testar o cálculo em um clique -->
+          <button type="button" id="btn-exemplo" class="btn-secundario">
+            Preencher exemplo
+          </button>
+        </div>
+
+        <form id="form-precificacao" class="form-grid">
+          <div class="campo">
+            <label for="nome-produto">Nome do produto (opcional)</label>
+            <input
+              type="text"
+              id="nome-produto"
+              placeholder="Ex.: Kit Skincare, Camiseta Básica..."
+            />
+          </div>
+
+          <!-- Custos diretos de aquisição/fabricação e embalagem por unidade vendida -->
+          <div class="linha-dupla">
+            <div class="campo">
+              <label for="custo-produto">Custo do produto (R$)</label>
+              <input
+                type="number"
+                id="custo-produto"
+                step="0.01"
+                min="0"
+                placeholder="0,00"
+                required
+              />
+            </div>
+
+            <div class="campo">
+              <label for="custo-embalagem">Embalagem (R$)</label>
+              <input
+                type="number"
+                id="custo-embalagem"
+                step="0.01"
+                min="0"
+                placeholder="0,00"
+                required
+              />
+            </div>
+          </div>
+
+          <!-- Custos rateados/fixos por unidade e quantidade para projeção de lote/período -->
+          <div class="linha-dupla">
+            <div class="campo">
+              <label for="custo-extra">Imposto / custo fixo un. (R$)</label>
+              <input
+                type="number"
+                id="custo-extra"
+                step="0.01"
+                min="0"
+                placeholder="0,00"
+                value="0"
+              />
+            </div>
+
+            <div class="campo">
+              <label for="quantidade">Quantidade (unidades)</label>
+              <input
+                type="number"
+                id="quantidade"
+                step="1"
+                min="1"
+                placeholder="1"
+                value="1"
+                required
+              />
+            </div>
+          </div>
+
+          <!-- Percentuais de comissão da plataforma e margem líquida desejada sobre o preço de venda -->
+          <div class="linha-dupla">
+            <div class="campo">
+              <label for="taxa-plataforma">Taxa da plataforma (%)</label>
+              <input
+                type="number"
+                id="taxa-plataforma"
+                step="0.1"
+                min="0"
+                max="99.9"
+                placeholder="Ex.: 14"
+                required
+              />
+            </div>
+
+            <div class="campo">
+              <label for="margem-desejada">Margem desejada (%)</label>
+              <input
+                type="number"
+                id="margem-desejada"
+                step="0.1"
+                min="0"
+                max="99.9"
+                placeholder="Ex.: 25"
+                required
+              />
+            </div>
+          </div>
+
+          <!-- Campo opcional para comparar o preço calculado contra um preço de venda já definido -->
+          <div class="campo">
+            <label for="preco-vitrine">
+              Preço de vitrine para testar (R$) — opcional
+            </label>
+            <input
+              type="number"
+              id="preco-vitrine"
+              step="0.01"
+              min="0"
+              placeholder="Ex.: 59.90 (veja o lucro real nesse preço)"
+            />
+          </div>
+
+          <div class="acoes-form">
+            <button type="submit" class="btn-primario">Calcular Lucro Real</button>
+            <button type="reset" id="btn-limpar" class="btn-fantasma">Limpar</button>
+          </div>
+        </form>
+      </section>
+
+      <!-- Seção 2: Saída reativa com métricas unitárias/totais, diagnóstico de saúde e resumo exportável -->
+      <!-- aria-live="polite" anuncia atualizações de resultado sem interromper o foco do usuário -->
+      <section id="resultado" class="card-painel painel-resultado" aria-live="polite">
+        <div class="estado-vazio">
+          <span class="icone-vazio">R$</span>
+          <h3>Seu raio-x de lucro aparece aqui</h3>
+          <p>
+            Informe os custos, a taxa do marketplace e a margem desejada para ver o preço
+            sugerido, quanto vai para a plataforma e o lucro líquido real.
+          </p>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <!-- Script compilado via TypeScript (tsc) a partir de script.ts -->
+  <script type="module" src="./dist/script.js"></script>
+</body>
+</html>

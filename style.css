@@ -1,0 +1,376 @@
+/* ==========================================================================
+   Design Tokens — Paleta, superfícies, estados semânticos e bordas
+   Centralizar cores e raios em variáveis facilita ajustes de tema sem caçar
+   seletor por seletor ao longo da folha de estilos.
+   ========================================================================== */
+:root {
+  --bg-page: #f5f3ee;
+  --bg-card: #ffffff;
+  --bg-soft: #f9f8f5;
+  --ink-primary: #13221c;
+  --ink-secondary: #4c5d55;
+  --ink-muted: #75857e;
+  --accent: #0f766e;
+  --accent-hover: #115e59;
+  --accent-soft: #ccfbf1;
+  --border: #e2e6e1;
+  --ok-bg: #dcfce7;
+  --ok-text: #14532d;
+  --warn-bg: #fef3c7;
+  --warn-text: #78350f;
+  --bad-bg: #fee2e2;
+  --bad-text: #7f1d1d;
+  --radius-lg: 20px;
+  --radius-md: 12px;
+  --shadow: 0 14px 36px rgba(19, 34, 28, 0.07);
+}
+
+/* Box-sizing global para evitar que padding e bordas estourem larguras calculadas */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+/* Base tipográfica e espaçamento externo da viewport */
+body {
+  font-family: "Plus Jakarta Sans", system-ui, -apple-system, sans-serif;
+  background-color: var(--bg-page);
+  color: var(--ink-primary);
+  line-height: 1.5;
+  min-height: 100vh;
+  padding: 32px 18px 56px;
+  position: relative;
+  overflow-x: hidden;
+}
+
+/* Gradiente radial decorativo posicionado atrás do conteúdo principal */
+.bg-glow {
+  position: fixed;
+  top: -140px;
+  right: -120px;
+  width: 420px;
+  height: 420px;
+  background: radial-gradient(circle, rgba(15, 118, 110, 0.16), transparent 70%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* Limita a largura máxima para manter leitura confortável em telas largas */
+.app-shell {
+  max-width: 1040px;
+  margin: 0 auto;
+  position: relative;
+  z-index: 1;
+}
+
+/* ==========================================================================
+   Cabeçalho editorial (Hero)
+   ========================================================================== */
+.hero {
+  margin-bottom: 28px;
+  max-width: 720px;
+}
+
+.badge {
+  display: inline-block;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  color: var(--accent);
+  background-color: var(--accent-soft);
+  padding: 6px 12px;
+  border-radius: 999px;
+  margin-bottom: 12px;
+}
+
+.hero h1 {
+  font-family: "Fraunces", Georgia, serif;
+  font-size: clamp(2.1rem, 4vw, 3rem);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: var(--ink-primary);
+  margin-bottom: 10px;
+}
+
+.subtitulo {
+  color: var(--ink-secondary);
+  font-size: 1.02rem;
+}
+
+/* ==========================================================================
+   Workspace — Coluna única no mobile e duas colunas assimétricas no desktop
+   ========================================================================== */
+.workspace {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 22px;
+}
+
+@media (min-width: 860px) {
+  .workspace {
+    grid-template-columns: 1.05fr 0.95fr;
+    align-items: start;
+  }
+}
+
+.card-painel {
+  background-color: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 24px;
+  box-shadow: var(--shadow);
+}
+
+.painel-topo {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 18px;
+}
+
+.painel-topo h2 {
+  font-size: 1.15rem;
+  font-weight: 700;
+}
+
+/* ==========================================================================
+   Formulário e controles de entrada
+   ========================================================================== */
+.form-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.linha-dupla {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+/* Empilha campos duplos em telas estreitas para evitar inputs apertados */
+@media (max-width: 520px) {
+  .linha-dupla {
+    grid-template-columns: 1fr;
+  }
+}
+
+.campo {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.campo label {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--ink-secondary);
+}
+
+.campo input {
+  width: 100%;
+  padding: 11px 13px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  background-color: var(--bg-soft);
+  color: var(--ink-primary);
+  font-size: 0.96rem;
+  font-family: inherit;
+  transition: border-color 0.2s, background-color 0.2s;
+}
+
+.campo input:focus {
+  outline: none;
+  background-color: #ffffff;
+  border-color: var(--accent);
+}
+
+.acoes-form {
+  display: flex;
+  gap: 10px;
+  margin-top: 6px;
+}
+
+.btn-primario {
+  flex: 1;
+  padding: 13px 18px;
+  border: none;
+  border-radius: var(--radius-md);
+  background-color: var(--accent);
+  color: #ffffff;
+  font-weight: 700;
+  font-size: 0.98rem;
+  cursor: pointer;
+  transition: background-color 0.2s, transform 0.1s;
+}
+
+.btn-primario:hover {
+  background-color: var(--accent-hover);
+}
+
+.btn-primario:active {
+  transform: scale(0.99);
+}
+
+.btn-secundario {
+  padding: 7px 12px;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  background-color: var(--bg-soft);
+  color: var(--ink-primary);
+  font-size: 0.8rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.btn-secundario:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+.btn-fantasma {
+  padding: 13px 16px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  background-color: transparent;
+  color: var(--ink-secondary);
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.btn-fantasma:hover {
+  background-color: var(--bg-soft);
+}
+
+/* ==========================================================================
+   Painel de resultados, estados de margem e bloco de resumo
+   ========================================================================== */
+.estado-vazio {
+  text-align: center;
+  padding: 28px 12px;
+}
+
+.icone-vazio {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 52px;
+  height: 52px;
+  border-radius: 16px;
+  background-color: var(--accent-soft);
+  color: var(--accent);
+  font-weight: 800;
+  font-size: 1.1rem;
+  margin-bottom: 14px;
+}
+
+.estado-vazio h3 {
+  font-size: 1.1rem;
+  margin-bottom: 8px;
+}
+
+.estado-vazio p {
+  color: var(--ink-muted);
+  font-size: 0.92rem;
+}
+
+.metricas-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.metrica {
+  background-color: var(--bg-soft);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: 14px;
+}
+
+/* Destaque visual para preço sugerido e lucro líquido real */
+.metrica.destaque {
+  background-color: #f0fdfa;
+  border-color: #99f6e4;
+}
+
+.metrica span {
+  display: block;
+  font-size: 0.78rem;
+  color: var(--ink-muted);
+  margin-bottom: 4px;
+}
+
+.metrica strong {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--ink-primary);
+}
+
+.metrica small {
+  display: block;
+  font-size: 0.76rem;
+  color: var(--ink-secondary);
+  margin-top: 3px;
+}
+
+/* Classes semânticas para o diagnóstico da margem */
+.alerta-box {
+  padding: 14px 16px;
+  border-radius: var(--radius-md);
+  font-size: 0.9rem;
+  font-weight: 600;
+  margin-bottom: 16px;
+}
+
+.alerta-box.saudavel {
+  background-color: var(--ok-bg);
+  color: var(--ok-text);
+}
+
+.alerta-box.atencao {
+  background-color: var(--warn-bg);
+  color: var(--warn-text);
+}
+
+.alerta-box.alerta {
+  background-color: var(--bad-bg);
+  color: var(--bad-text);
+}
+
+.vitrine-box {
+  background-color: var(--bg-soft);
+  border: 1px dashed #cbd5e1;
+  border-radius: var(--radius-md);
+  padding: 14px;
+  margin-bottom: 16px;
+  font-size: 0.88rem;
+}
+
+.vitrine-box h4 {
+  font-size: 0.9rem;
+  margin-bottom: 6px;
+}
+
+.resumo-box {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.resumo-box textarea {
+  width: 100%;
+  min-height: 118px;
+  padding: 12px;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border);
+  background-color: var(--bg-soft);
+  font-family: inherit;
+  font-size: 0.84rem;
+  color: var(--ink-secondary);
+  resize: vertical;
+}
